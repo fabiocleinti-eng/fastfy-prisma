@@ -1,7 +1,10 @@
 import app from './src/app.js';
 
-const port = 3000;
+const port = Number(process.env.PORT) || 3000;
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+try {
+    await app.listen({ port, host: '0.0.0.0' });
+} catch (error) {
+    app.log.error(error);
+    process.exit(1);
+}

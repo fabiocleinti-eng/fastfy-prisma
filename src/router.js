@@ -1,12 +1,13 @@
-import { Router } from 'express';
-import contatosRouter from './contatos/contatosRouter.js';
-import usuariosRouter from './usuarios/usuariosRouter.js';
-import authRouter from './auth/authRouter.js';
+import authRoutes from './routes/authRoutes.js';
+import contatosRoutes from './routes/contatosRoutes.js';
 
-const router = Router();
+async function router(app) {
+    app.get('/health', async () => ({
+        status: 'ok'
+    }));
 
-router.use('/contatos', contatosRouter);
-router.use('/usuarios', usuariosRouter);
-router.use('/auth', authRouter);
+    await app.register(authRoutes);
+    await app.register(contatosRoutes);
+}
 
 export default router;

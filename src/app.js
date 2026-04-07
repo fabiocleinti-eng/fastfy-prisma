@@ -1,10 +1,22 @@
-import express from 'express';
+import Fastify from 'fastify';
+import cors from '@fastify/cors';
+import jwt from '@fastify/jwt';
 import router from './router.js';
 
-const app = express();
+const app = Fastify({
+    logger: true
+});
 
-app.use(express.json());
+await app.register(cors, {
+    origin: true
+});
 
-app.use(router);
+await app.register(jwt, {
+    secret: process.env.JWT_SECRET || 'change-me'
+});
+
+await app.register(router, {
+    prefix: '/api'
+});
 
 export default app;
